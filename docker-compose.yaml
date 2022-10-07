@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+#  myapp-main:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: lasit/url-shortener
+#    restart: on-failure
+#    depends_on:
+#      - db
+#    ports:
+#      - 8080:8080
+
+volumes:
+  data:

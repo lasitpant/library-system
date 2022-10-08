@@ -1,5 +1,5 @@
 
-insert into person values (1, 'john', '0892008141');
+insert into person (id, name, phone) values (1, 'john', '0892008141');
 insert into person (id, name, phone) values (2, 'doe', '0892008142');
 insert into person (id, name, phone) values (3, 'james', '0892008143');
 --

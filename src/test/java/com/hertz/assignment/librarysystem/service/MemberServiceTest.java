@@ -1,7 +1,7 @@
 package com.hertz.assignment.librarysystem.service;
 
 import com.hertz.assignment.librarysystem.entity.Book;
-import com.hertz.assignment.librarysystem.entity.BookLending;
+import com.hertz.assignment.librarysystem.entity.BooksLoaned;
 import com.hertz.assignment.librarysystem.entity.LoanBookDTO;
 import com.hertz.assignment.librarysystem.entity.User;
 import com.hertz.assignment.librarysystem.exceptions.NotFoundException;
@@ -51,9 +51,9 @@ public class MemberServiceTest {
 
         final var mockUser = new User();
         final var mockBook = new Book();
-        final var mockLending = new BookLending();
-        final var mockLending1 = new BookLending();
-        final var mockLending2 = new BookLending();
+        final var mockLending = new BooksLoaned();
+        final var mockLending1 = new BooksLoaned();
+        final var mockLending2 = new BooksLoaned();
 
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
@@ -74,7 +74,7 @@ public class MemberServiceTest {
 
         final var mockUser = new User();
         final var mockBook = new Book();
-        final var mockLending = new BookLending();
+        final var mockLending = new BooksLoaned();
 
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));

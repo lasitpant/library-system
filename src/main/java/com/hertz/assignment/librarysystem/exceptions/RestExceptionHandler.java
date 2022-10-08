@@ -1,7 +1,5 @@
-package com.hertz.assignment.librarysystem.errors;
+package com.hertz.assignment.librarysystem.exceptions;
 
-import com.hertz.assignment.librarysystem.exceptions.EntityNotFoundException;
-import com.hertz.assignment.librarysystem.exceptions.NotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -18,8 +16,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND,exception.getMessage()));
     }
 
-    @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<Object> exception(EntityNotFoundException exception){
+    @ExceptionHandler(value = LibrarySystemMemberException.class)
+    public ResponseEntity<Object> exception(LibrarySystemMemberException exception){
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND,exception.getMessage()));
     }
 

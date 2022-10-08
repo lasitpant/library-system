@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -50,6 +49,7 @@ public class BookServiceTest {
     @DisplayName("Test create book- Rainy Day")
     void testAddBook(){
         final var mockBook = new Book();
+//        final var mockBook = new Book(1L,"ISBN","title","subj","pub","lang",20, Set.of(),true);
         Mockito.when(bookRepository.findBookByISBN(any())).thenReturn(Optional.of(mockBook));
         final var bookDTO = new BookDTO();
         Assert.assertThrows(NotFoundException.class,

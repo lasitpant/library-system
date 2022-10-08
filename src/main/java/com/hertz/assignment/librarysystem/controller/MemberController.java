@@ -1,34 +1,35 @@
 package com.hertz.assignment.librarysystem.controller;
 
-import com.hertz.assignment.librarysystem.entity.Book;
-import com.hertz.assignment.librarysystem.entity.BookDTO;
+
 import com.hertz.assignment.librarysystem.entity.LoanBookDTO;
 import com.hertz.assignment.librarysystem.service.MemberService;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 
 @RestController
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
 
-
-    public MemberController(MemberService memberService) {
+    private MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
     @PostMapping("/loan")
-    public void loanBook(@RequestBody LoanBookDTO requestBody){
-        memberService.loanBook(requestBody);
+    public ResponseEntity<?> loanBook(@RequestBody LoanBookDTO requestBody){
+        return new ResponseEntity<>(memberService.loanBook(requestBody), HttpStatus.OK);
     }
 
-    @PostMapping("/return-loaned")
-    public void returnBookLoaned(@RequestBody LoanBookDTO requestBody){
+    @PostMapping("/return")
+    public ResponseEntity<?> returnBookLoaned(@RequestBody LoanBookDTO requestBody){
         memberService.returnBook(requestBody);
-
+        return new ResponseEntity<>("book returned !",HttpStatus.NO_CONTENT);
     }
 }

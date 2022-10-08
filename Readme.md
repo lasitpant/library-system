@@ -11,16 +11,24 @@ Business rules
 - there is only 1 copy of each book
 - each book can have more than one category
 
-Users
-- *Members*
-  1. can register 
-  2. can loan books
-  3. can return books
+Functionalities covered -
+
+1. Maximum books a user loan i.e. 3, cannot loan more books
+2. User needs to return the loaned book inorder to loan another book
+3. User cannot loan the same book, also once book is loaned, any other user cannot loan it
+4. User can return the book
+5. Some Functionalities for books -
+   1. Add books
+   2. Delete books
+   3. get by ID
+   4. Search by title
+   5. get all books
 
 
-- *Librarian*
-    1. can add books
-    2. can remove books
-    3. can block members
+Coverage - 
+1. Unit Tests covered
+2. Dockerized the app 
+3. H2 database used.
+4. Postman collection
 
 

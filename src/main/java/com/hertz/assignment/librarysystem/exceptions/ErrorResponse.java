@@ -1,4 +1,4 @@
-package com.hertz.assignment.librarysystem.errors;
+package com.hertz.assignment.librarysystem.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

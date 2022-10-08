@@ -3,7 +3,6 @@ package com.hertz.assignment.librarysystem.controller;
 import com.hertz.assignment.librarysystem.entity.Book;
 import com.hertz.assignment.librarysystem.entity.BookDTO;
 import com.hertz.assignment.librarysystem.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/library")
 public class BookController {
     private final BookService bookService;
 
-    @Autowired
-    public BookController(BookService bookService) {
+    private BookController(BookService bookService) {
         this.bookService = bookService;
     }
 

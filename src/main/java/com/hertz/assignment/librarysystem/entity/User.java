@@ -12,13 +12,13 @@ import javax.persistence.*;
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
 
-//    @Enumerated(En/umType.STRING)
+    @Column(name = "account_type")
     private String AccountType;
 }

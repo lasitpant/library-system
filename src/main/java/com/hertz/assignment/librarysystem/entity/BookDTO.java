@@ -13,6 +13,7 @@ public class BookDTO {
     private String title;
     private String subject;
     private String language;
+    private String publisher;
     private Integer numberOfPages;
     private List<Long> categories;
     private Long userKey;

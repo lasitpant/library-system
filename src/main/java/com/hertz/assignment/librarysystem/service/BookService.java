@@ -68,7 +68,7 @@ public class BookService {
         book.setSubject(payload.getSubject());
         book.setLanguage(payload.getLanguage());
         book.setNumberOfPages(payload.getNumberOfPages());
-
+        book.setPublisher(payload.getPublisher());
         Set<Category> categoryPayload = new HashSet<>();
         payload.getCategories().forEach(d->{
             categoryPayload.add(categoryRepository.findById(d).orElseThrow(()-> new NotFoundException("Category not found !")));

@@ -6,10 +6,7 @@ import com.hertz.assignment.librarysystem.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -31,5 +28,10 @@ public class MemberController {
     public ResponseEntity<?> returnBookLoaned(@RequestBody LoanBookDTO requestBody){
         memberService.returnBook(requestBody);
         return new ResponseEntity<>("book returned !",HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/books-loaned/{id}")
+    public ResponseEntity<?> booksLoanedByUser(@PathVariable Long id){
+        return new ResponseEntity<>(memberService.getBooksLoanedByUser(id),HttpStatus.OK);
     }
 }

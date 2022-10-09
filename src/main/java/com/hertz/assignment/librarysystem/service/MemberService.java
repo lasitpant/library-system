@@ -8,8 +8,7 @@ import com.hertz.assignment.librarysystem.repository.BookRepository;
 import com.hertz.assignment.librarysystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class MemberService {
@@ -40,8 +39,6 @@ public class MemberService {
         bookLendingRepository.delete(item);
     }
 
-
-    //need to return for response
     public BooksLoaned loanBook(LoanBookDTO payload){
 
         final var user = userRepository.findById(payload.getUserId()).orElseThrow(()->new NotFoundException("user not found."));
@@ -53,12 +50,18 @@ public class MemberService {
         //check books the user already has loaned
         final var loanedBooks = bookLendingRepository.findBookLendingByUser(user);
 
-        //
-//        if (loanedBooks.stream().filter(d->d.getId() == book.getId()).findFirst().isPresent()) throw new LibrarySystemMemberException("User already has this book loaned.");
-        if (loanedBooks.size() >= MAX_LOAN_LIMIT) throw new NotFoundException("User already has max number of books loaned!");
+       if (loanedBooks.size() >= MAX_LOAN_LIMIT) throw new NotFoundException("User already has max number of books loaned!");
 
         final var response = bookLendingRepository.save(bookLending(changeBookStatus(book, false), user));
         return response;
+    }
+
+    public List<Book> getBooksLoanedByUser(Long id){
+        final var user = userRepository.findById(id).orElseThrow(()->new NotFoundException("User not found."));
+        final var booksLoaned = bookLendingRepository.findBookLendingByUser(user);
+        final List<Book> books = new ArrayList<>();
+        booksLoaned.forEach(data->books.add(data.getBook()));
+        return books;
     }
 
     private BooksLoaned bookLending(Book book, User user){

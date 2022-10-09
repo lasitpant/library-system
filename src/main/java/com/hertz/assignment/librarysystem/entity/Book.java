@@ -25,25 +25,25 @@ public class Book implements Serializable {
     @Column(name = "isbn", length = 150, unique = true)
     private String ISBN;
 
-    @Column(name = "title", length = 200)
+    @Column(name = "title", length = 200, nullable = false)
     private String title;
 
-    @Column(name = "subject", length = 100)
+    @Column(name = "subject", length = 100, nullable = false)
     private String subject;
 
-    @Column(name = "publisher", length = 50)
+    @Column(name = "publisher", length = 100, nullable = false)
     private String publisher;
 
-    @Column(name = "language", length = 50)
+    @Column(name = "language", length = 50, nullable = false)
     private String language;
 
-    @Column(name = "pages")
+    @Column(name = "pages", nullable = false)
     private int numberOfPages;
 
     @ManyToMany
     @JoinColumn(name = "category_id")
     private Set<Category> categories = new HashSet<>();
 
-    @Column(name = "availability")
+    @Column(name = "availability" ,nullable = false)
     private Boolean availability;
 }

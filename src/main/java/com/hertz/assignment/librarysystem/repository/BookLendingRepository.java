@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookItemRepository extends JpaRepository<BooksLoaned, Long> {
+public interface BookLendingRepository extends JpaRepository<BooksLoaned, Long> {
 
     List<BooksLoaned> findBookLendingByUser(User user);
     BooksLoaned findBookLendingByUserAndBook(User user, Book book);

@@ -3,9 +3,11 @@ package com.hertz.assignment.librarysystem.service;
 import com.hertz.assignment.librarysystem.entity.Book;
 import com.hertz.assignment.librarysystem.entity.BookDTO;
 import com.hertz.assignment.librarysystem.entity.Category;
+import com.hertz.assignment.librarysystem.exceptions.LibrarySystemMemberException;
 import com.hertz.assignment.librarysystem.exceptions.NotFoundException;
 import com.hertz.assignment.librarysystem.repository.BookRepository;
 import com.hertz.assignment.librarysystem.repository.CategoryRepository;
+import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,22 +26,29 @@ public class BookService {
     }
 
     public Book addBook(BookDTO payload) {
-      final var checkRecord = bookRepository.findBookByISBN(payload.getIsbn());
-      if (!checkRecord.isEmpty()){
-            throw new NotFoundException("Book Exists with same ISBN.");
+        try {
+            final var data = createBookObject(payload);
+            return bookRepository.save(data);
+        }catch (Exception ex){
+            throw new LibrarySystemMemberException(ex.getMessage());
         }
-        final var data = createBookObject(payload);
-        return bookRepository.save(data);
+
     }
 
     public void deleteBook(Long id){
-        bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Record not found !"));
-        bookRepository.delete(bookRepository.getReferenceById(id));
+        final var itemToBeDeleted = bookRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Record not found."));
+
+        try {
+            bookRepository.delete(itemToBeDeleted);
+        }catch (Exception ex){
+            String errorMsg = "The book is loaned/linked"+ex.getMessage();
+            throw new LibrarySystemMemberException(errorMsg);
+        }
     }
 
     public Book getBookById(Long id){
-        return bookRepository.getReferenceById(id);
+        return bookRepository.findById(id).orElseThrow(()->new NotFoundException("Cannot find Book record for id."));
     }
 
     public List<Book> getAll(){
@@ -51,7 +60,7 @@ public class BookService {
     }
 
 
-    Book createBookObject(BookDTO payload){
+    private Book createBookObject(BookDTO payload){
         Book book = new Book();
 
         book.setISBN(payload.getIsbn());

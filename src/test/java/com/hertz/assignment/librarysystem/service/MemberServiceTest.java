@@ -5,7 +5,7 @@ import com.hertz.assignment.librarysystem.entity.BooksLoaned;
 import com.hertz.assignment.librarysystem.entity.LoanBookDTO;
 import com.hertz.assignment.librarysystem.entity.User;
 import com.hertz.assignment.librarysystem.exceptions.NotFoundException;
-import com.hertz.assignment.librarysystem.repository.BookItemRepository;
+import com.hertz.assignment.librarysystem.repository.BookLendingRepository;
 import com.hertz.assignment.librarysystem.repository.BookRepository;
 import com.hertz.assignment.librarysystem.repository.UserRepository;
 
@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class MemberServiceTest {
 
     @Mock
-    private BookItemRepository bookItemRepository;
+    private BookLendingRepository bookLendingRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -39,7 +39,9 @@ public class MemberServiceTest {
 
     @BeforeEach
     void setUp(){
-        this.memberService = new MemberService(this.userRepository, this.bookItemRepository, this.bookRepository);
+        this.memberService = new MemberService(this.userRepository,
+                this.bookLendingRepository,
+                this.bookRepository);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class MemberServiceTest {
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
         Mockito.when(bookRepository.findById(any())).thenReturn(Optional.of(mockBook));
-        Mockito.when(bookItemRepository.findBookLendingByUser(any()))
+        Mockito.when(bookLendingRepository.findBookLendingByUser(any()))
                 .thenReturn(List.of(mockLending, mockLending1, mockLending2, mockLending2));
 
         Assert.assertThrows(NotFoundException.class, ()->memberService.loanBook(loanBookDTO));
@@ -66,7 +68,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("Sunny Day")
+    @DisplayName("Sunny Day - Loan Book")
     void testLoan(){
         LoanBookDTO loanBookDTO = new LoanBookDTO();
         loanBookDTO.setBookId(1L);
@@ -79,10 +81,30 @@ public class MemberServiceTest {
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
         Mockito.when(bookRepository.findById(any())).thenReturn(Optional.of(mockBook));
-        Mockito.when(bookItemRepository.findBookLendingByUser(any()))
+        Mockito.when(bookLendingRepository.findBookLendingByUser(any()))
                 .thenReturn(List.of(mockLending));
-        Mockito.when(bookItemRepository.save(any())).thenReturn(mockLending);
+        Mockito.when(bookLendingRepository.save(any())).thenReturn(mockLending);
         final var res = memberService.loanBook(loanBookDTO);
         Assert.assertEquals(res,mockLending);
+    }
+
+    @Test
+    @DisplayName("Return Book")
+    void testReturnBook(){
+        LoanBookDTO loanBookDTO = new LoanBookDTO();
+        loanBookDTO.setBookId(1L);
+        loanBookDTO.setUserId(1L);
+        final var mockUser = new User();
+        final var mockBook = new Book();
+        final var mockBooksLoaned = new BooksLoaned();
+        Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
+        Mockito.when(bookRepository.findById(any())).thenReturn(Optional.of(mockBook));
+
+        Mockito.when(bookLendingRepository.
+                findBookLendingByUserAndBook(any(), any())).thenReturn(mockBooksLoaned);
+
+        memberService.returnBook(loanBookDTO);
+        Mockito.verify(bookLendingRepository).delete(mockBooksLoaned);
+
     }
 }

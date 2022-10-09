@@ -49,7 +49,6 @@ public class BookServiceTest {
     @DisplayName("Test create book- Rainy Day")
     void testAddBook(){
         final var mockBook = new Book();
-//        final var mockBook = new Book(1L,"ISBN","title","subj","pub","lang",20, Set.of(),true);
         Mockito.when(bookRepository.findBookByISBN(any())).thenReturn(Optional.of(mockBook));
         final var bookDTO = new BookDTO();
         Assert.assertThrows(NotFoundException.class,
@@ -71,5 +70,23 @@ public class BookServiceTest {
         bookDTO.setCategories(List.of(1L));
         bookService.addBook(bookDTO);
         verify(bookRepository).save(any());
+    }
+
+    @Test
+    @DisplayName("Test get by Id")
+    void testGetById(){
+        final var mockBook = new Book();
+        Mockito.when(bookRepository.findById(any())).thenReturn(Optional.of(mockBook));
+        final var response = bookService.getBookById(1L);
+        Assert.assertEquals(response, mockBook);
+    }
+
+    @Test
+    @DisplayName("Test delete ")
+    void testDeleteById(){
+        final var mockBook = new Book();
+        Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
+        bookService.deleteBook(1L);
+        verify(bookRepository).delete(mockBook);
     }
 }

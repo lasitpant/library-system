@@ -4,6 +4,7 @@ package com.hertz.assignment.librarysystem.service;
 import com.hertz.assignment.librarysystem.entity.Book;
 import com.hertz.assignment.librarysystem.entity.BookDTO;
 import com.hertz.assignment.librarysystem.entity.Category;
+import com.hertz.assignment.librarysystem.exceptions.LibrarySystemMemberException;
 import com.hertz.assignment.librarysystem.exceptions.NotFoundException;
 import com.hertz.assignment.librarysystem.repository.BookRepository;
 import com.hertz.assignment.librarysystem.repository.CategoryRepository;
@@ -48,10 +49,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("Test create book- Rainy Day")
     void testAddBook(){
-        final var mockBook = new Book();
-        Mockito.when(bookRepository.findBookByISBN(any())).thenReturn(Optional.of(mockBook));
         final var bookDTO = new BookDTO();
-        Assert.assertThrows(NotFoundException.class,
+        Assert.assertThrows(LibrarySystemMemberException.class,
                 ()->bookService.addBook(bookDTO));
 
     }
@@ -59,9 +58,6 @@ public class BookServiceTest {
     @Test
     @DisplayName("Test create book- Rainy Day")
     void testAddBookSunnyDay(){
-
-        Mockito.when(bookRepository.findBookByISBN(any())).thenReturn(Optional.empty());
-
         final var bookDTO = new BookDTO();
         final var category = new Category();
         Mockito.when(categoryRepository.findById(any())).thenReturn(Optional.of(category));

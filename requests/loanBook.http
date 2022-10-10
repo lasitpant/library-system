@@ -1,4 +1,0 @@
-POST http://localhost:8080/loan
-Accept: application/json
-
-<> payload.json

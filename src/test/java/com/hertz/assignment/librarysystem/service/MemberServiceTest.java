@@ -53,6 +53,7 @@ public class MemberServiceTest {
 
         final var mockUser = new User();
         final var mockBook = new Book();
+        mockBook.setAvailability(true);
         final var mockLending = new BooksLoaned();
         final var mockLending1 = new BooksLoaned();
         final var mockLending2 = new BooksLoaned();
@@ -76,11 +77,13 @@ public class MemberServiceTest {
 
         final var mockUser = new User();
         final var mockBook = new Book();
+        mockBook.setAvailability(true);
         final var mockLending = new BooksLoaned();
 
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
         Mockito.when(bookRepository.findById(any())).thenReturn(Optional.of(mockBook));
+
         Mockito.when(bookLendingRepository.findBookLendingByUser(any()))
                 .thenReturn(List.of(mockLending));
         Mockito.when(bookLendingRepository.save(any())).thenReturn(mockLending);
